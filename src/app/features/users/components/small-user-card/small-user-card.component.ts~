@@ -1,0 +1,71 @@
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ShortUser, UserService} from '../../../../core/services/user.service';
+import {Router, RouterLink} from '@angular/router';
+import {FirstLetterPipe} from '../../../../shared/pipes/FirstLetter';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import {NzMessageService} from 'ng-zorro-antd/message';
+
+@Component
+({
+  selector: 'app-small-user-card',
+  imports: [
+    FirstLetterPipe,
+    RouterLink,
+    NzButtonComponent,
+    NzIconDirective,
+    NzModalModule,
+  ],
+  templateUrl: './small-user-card.component.html',
+  standalone: true,
+  styleUrls: ['./small-user-card.component.scss']
+})
+export class SmallUserCardComponent {
+  @Input() user!: ShortUser;
+  @Input() isAdmin!: boolean;
+  @Input() isLocal!: boolean;
+  @Output() userDeleted = new EventEmitter<number>();
+
+
+  constructor(private router: Router,
+              private userService: UserService,
+              private modal: NzModalService,
+              private message: NzMessageService) {
+  }
+
+  /**
+   * onclick navigates to the detail page of the user
+   */
+  goToUser(): void {
+    this.router.navigate([`/users/${this.user.id}`]);
+  }
+
+  showConfirm(user: ShortUser) {
+    this.modal.confirm({
+      nzTitle: `Delete ${user.name}?`,
+      nzContent: 'This action cannot be undone',
+      nzOkText: 'Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzCancelText: 'Cancel',
+      nzCentered: true,
+      nzOnOk: () => this.userService.deleteUser(user.id).subscribe({
+        next: () => {
+          this.message.success('User deleted');
+          this.userDeleted.emit(user.id);
+        },
+        error: (err) => this.message.error('Failed to delete user')
+      })
+    });
+  }
+
+  deleteUser(id: number): void {
+
+    this.userService.deleteUser(id).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+}

@@ -1,0 +1,119 @@
+<div class="form-container">
+  <form nz-form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <h1>{{ isEditMode ? 'Edit User' : 'Create New User' }}</h1>
+    <div class="form-grid">
+      <div class="form-section">
+        <h3 class="section-title">Main information</h3>
+        <nz-form-item>
+          <nz-form-label [nzRequired]="true">Name</nz-form-label>
+          <nz-form-control [nzErrorTip]="nameErrorTpl">
+            <input nz-input formControlName="name" placeholder="John Doe">
+            <ng-template #nameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">This field is required</ng-container>
+              <ng-container *ngIf="control.hasError('minlength')">2 symbols required</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzRequired]="true">Username</nz-form-label>
+          <nz-form-control [nzErrorTip]="usernameErrorTpl">
+            <input nz-input formControlName="username" placeholder="JohnSuperStar3000">
+            <ng-template #usernameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">This field is required</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzRequired]="true">Email</nz-form-label>
+          <nz-form-control [nzErrorTip]="emailErrorTpl">
+            <input nz-input formControlName="email" placeholder="JohnDoe@ex.com">
+            <ng-template #emailErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">This field is required</ng-container>
+              <ng-container *ngIf="control.hasError('email')">Invalid email</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Phone number</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="phone" placeholder="+7 (999) 999-99-99">
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Website</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="website" placeholder="https://example.com">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="form-section">
+        <h3 class="section-title">Adress</h3>
+        <div formGroupName="address">
+          <nz-form-item>
+            <nz-form-label>City</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="city" placeholder="New York City">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>Street</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="street" placeholder="Main Street 123">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="section-title">Company</h3>
+
+        <div formGroupName="company">
+          <nz-form-item>
+            <nz-form-label>Company name</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="name" placeholder="Big Company inc.">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>Catchphrase</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="catchPhrase" placeholder="we build big things">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>bs</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="bs" placeholder="big things do big things">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        nz-button
+        nzType="primary"
+        [disabled]="userForm.invalid"
+        [nzLoading]="isLoading"
+        type="submit">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+      <button
+        nz-button
+        class="cancel-btn"
+        (click)="onCancel()"
+        type="button">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

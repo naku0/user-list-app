@@ -1,0 +1,40 @@
+<div class="main-container">
+  <header class="app-header">
+    <h1 class="app-title">User List App</h1>
+    <p class="app-author">
+      Made by
+      <a href="https://github.com/naku0" target="_blank" class="author-link">naku0</a>
+      with
+      <span class="tech-stack">
+        <span class="tech-angular"><a href="https://angular.io/" target="_blank">Angular</a></span>,
+        <span class="tech-zorro"><a href="https://ng.ant.design/" target="_blank">NG-ZORRO</a></span>,
+        and <span class="tech-scss"><a href="https://sass-lang.com/" target="_blank">SCSS</a></span>
+      </span>
+      <span class="heart">❤️</span>
+    </p>
+
+    <div class="admin-toggle">
+      <span class="toggle-label">Admin Mode</span>
+      <nz-switch
+        [(ngModel)]="isAdmin"
+        (ngModelChange)="onAdminModeChange()"
+        nzCheckedChildren="ON"
+        nzUnCheckedChildren="OFF">
+      </nz-switch>
+      <span nz-tooltip
+            nzTooltipPlacement="right"
+            nzTooltipTrigger="hover"
+            nzTooltipTitle="This toggle allows you to switch between user and admin mode to see both interfaces."
+            nzTooltipColor="blue">
+        <span nz-icon nzType="question-circle" nzTheme="outline" class="info-icon"></span>
+      </span>
+    </div>
+
+  </header>
+
+  <div class="app-content">
+    <app-user-list
+      [isAdmin]="isAdmin"
+    ></app-user-list>
+  </div>
+</div>

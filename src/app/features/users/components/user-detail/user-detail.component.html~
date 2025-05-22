@@ -1,0 +1,51 @@
+<div class="user-profile">
+  <header class="profile-header">
+    <div class="header-content">
+      <a routerLink="/" class="back-button">
+        <nz-icon nzType="left" nzTheme="outline"></nz-icon>
+        <span>Back</span>
+      </a>
+      <h2 class="username">&#64;{{ user.username }}</h2>
+    </div>
+  </header>
+
+  <main class="profile-content">
+    <nz-card class="profile-card">
+      <div class="avatar-section">
+        <nz-avatar
+          [nzSize]="120"
+          [nzText]="user?.name"
+          nzShape="circle"
+          class="profile-avatar"
+        ></nz-avatar>
+      </div>
+
+      <div class="info-section">
+        <h1 class="user-name">{{ user.name }}</h1>
+        <nz-tag [nzColor]="'pink'">{{ user.company.name }}</nz-tag>
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <nz-icon nzType="environment" nzTheme="outline"></nz-icon>
+            <span>{{ user.address.city }}, {{ user.address.street }}</span>
+          </div>
+
+          <div class="detail-item">
+            <nz-icon nzType="mail" nzTheme="outline"></nz-icon>
+            <span>{{ user.email }}</span>
+          </div>
+
+          <div class="detail-item">
+            <nz-icon nzType="phone" nzTheme="outline"></nz-icon>
+            <span>{{ user.phone }}</span>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+
+    <nz-card class="additional-info">
+      <h3>About</h3>
+      <p class="bio">{{ user.company.catchPhrase }}</p>
+    </nz-card>
+  </main>
+</div>

@@ -1,0 +1,81 @@
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import {UserFormBase} from '../user-form';
+import {User} from '../../../../../core/model/user.model';
+import {UserService} from '../../../../../core/services/user.service';
+import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
+import {NzInputDirective} from 'ng-zorro-antd/input';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {CommonModule} from '@angular/common';
+
+@Component({
+  selector: 'app-new-user-form',
+  standalone: true,
+  templateUrl: '../user-form-base.html',
+  imports: [
+    NzFormItemComponent,
+    NzFormLabelComponent,
+    NzInputDirective,
+    NzFormControlComponent,
+    ReactiveFormsModule,
+    NzButtonComponent,
+    NzFormDirective,
+    CommonModule
+  ],
+  styleUrls: ['../user-form-base.component.scss']
+})
+export class ChangeUserFormComponent extends UserFormBase implements OnInit {
+  userId!: number;
+
+  constructor(
+    protected override fb: FormBuilder,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private message: NzMessageService
+  ) {
+    super(fb);
+    this.isEditMode = true;
+  }
+
+  ngOnInit(): void {
+    this.userId = this.route.snapshot.params['id'];
+    this.loadUserData(this.userId);
+  }
+
+  private loadUserData(id: number): void {
+    this.isLoading = true;
+    this.userService.getUserById(id).subscribe({
+      next: (user: User) => {
+        this.patchForm(user);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.message.error('Error loading user');
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onSubmit(): void {
+    if (this.userForm.valid) {
+      this.isLoading = true;
+      const userData = this.userForm.value;
+      this.userService.updateUser(this.userId, userData).subscribe({
+        next: () => {
+          this.message.success('User updated successfully');
+          this.router.navigate(['/', this.userId]);
+        },
+        error: () => {
+          this.message.error('Error updating user');
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+  protected override onCancel() {
+    this.router.navigate(['/']);
+  }
+}

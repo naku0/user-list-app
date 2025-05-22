@@ -1,0 +1,86 @@
+@import "../../../../../assets/scss/variables";
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: $angular-light;
+  padding: 2rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.admin-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $angular-dark;
+}
+
+.app-header {
+  width: 100%;
+
+  padding: 18px;
+  color: white;
+  border-radius: 0 0 20px 20px;
+
+  .app-title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 3rem;
+  }
+
+  .app-author {
+    color: $angular-dark;
+    font-size: 0.9rem;
+    margin: 10px 0;
+
+    .author-link {
+      color: $primary-blue;
+
+      &:hover {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: $angular-gradient;
+      }
+    }
+
+    .tech-stack {
+      font-weight: 500;
+
+      > :has(a) {
+        text-decoration: underline;
+        text-decoration-color: lighten(black, 70%);
+      }
+
+      .tech-angular {
+        a {
+          color: #f1588a;
+          text-decoration-color: #f1588a;
+        }
+      }
+
+      .tech-zorro {
+        a {
+          color: #50abff;
+        }
+      }
+
+      .tech-scss {
+        a {
+          color: #e170a9;
+        }
+      }
+    }
+  }
+}
+
+.app-content {
+  width: 100%;
+  max-width: 1200px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 10px 1.5rem;
+}

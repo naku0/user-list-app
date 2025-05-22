@@ -1,0 +1,84 @@
+import { Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { User, ShortUser } from '../model/user.model';
+
+@Injectable({ providedIn: 'root' })
+export class LocalStorageService {
+  private readonly FLAG = 'isLocal';
+  private readonly STORAGE_KEY = 'users_data';
+
+  constructor() {
+    this.initializeDefaultData();
+  }
+
+  setLocalStorage(state: boolean): void{
+      localStorage.setItem(this.FLAG, JSON.stringify(state));
+  }
+
+  private initializeDefaultData(): void {
+    if (!localStorage.getItem(this.STORAGE_KEY)) {
+      const defaultUsers: User[] = [];
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(defaultUsers));
+    }
+  }
+
+  private getUsersFromStorage(): User[] {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  }
+
+  saveUsersToStorage(users: User[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
+  }
+
+  saveShortUsersToStorage(users: ShortUser[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
+  }
+
+  getUsers(): Observable<ShortUser[]> {
+    const users = this.getUsersFromStorage();
+    const shortUsers = users.map(({ id, name, email }) => ({ id, name, email }));
+    return of(shortUsers);
+  }
+
+  getUserById(id: number): Observable<User> {
+    const users = this.getUsersFromStorage();
+    const user = users.find(u => u.id === id);
+    return user ? of(user) : throwError(() => new Error('User not found'));
+  }
+
+  createUser(user: Omit<User, 'id'>): Observable<User> {
+    const users = this.getUsersFromStorage();
+    const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+    const newUser = { ...user, id: newId };
+    users.push(newUser);
+    this.saveUsersToStorage(users);
+    return of(newUser);
+  }
+
+  updateUser(id: number, user: Partial<User>): Observable<User> {
+    const users = this.getUsersFromStorage();
+    const index = users.findIndex(u => u.id === id);
+
+    if (index === -1) {
+      return throwError(() => new Error('User not found'));
+    }
+
+    const updatedUser = { ...users[index], ...user };
+    users[index] = updatedUser;
+    this.saveUsersToStorage(users);
+    return of(updatedUser);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    const users = this.getUsersFromStorage();
+    const index = users.findIndex(u => u.id === id);
+    if (index === -1) {
+      return throwError(() => new Error('User not found'));
+    }
+    users.splice(index, 1);
+    this.saveUsersToStorage(users);
+    return of(undefined);
+  }
+}

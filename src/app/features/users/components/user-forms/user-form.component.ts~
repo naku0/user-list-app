@@ -1,0 +1,83 @@
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {UserService} from '../../../../core/services/user.service';
+import {Router} from '@angular/router';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from 'ng-zorro-antd/form';
+import {NzInputDirective} from 'ng-zorro-antd/input';
+import {NgIf} from '@angular/common';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
+
+@Component({
+  selector: 'app-user-form',
+  standalone: true,
+  templateUrl: './user-form.component.html',
+  imports: [
+    FormsModule,
+    NzFormItemComponent,
+    NzFormLabelComponent,
+    NzFormControlComponent,
+    NzInputDirective,
+    NgIf,
+    NzButtonComponent,
+    ReactiveFormsModule,
+    NzFormDirective
+  ],
+  styleUrls: ['./user-form.component.scss']
+})
+
+
+export class UserFormComponent implements OnInit {
+  userForm!: FormGroup;
+  isLoading = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    protected router: Router,
+    private message: NzMessageService
+  ) {}
+
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.userForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      website: [''],
+      address: this.fb.group({
+        city: ['']
+      }),
+      company: this.fb.group({
+        name: ['']
+      })
+    });
+  }
+
+  onSubmit(): void {
+    if (this.userForm.valid) {
+      this.isLoading = true;
+      this.userService.createUser(this.userForm.value).subscribe({
+        next: () => {
+          this.message.success('Пользователь успешно создан');
+          this.router.navigate(['/users']);
+        },
+        error: () => {
+          this.message.error('Ошибка при создании пользователя');
+          this.isLoading = false;
+        }
+      });
+    } else {
+      Object.values(this.userForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+}

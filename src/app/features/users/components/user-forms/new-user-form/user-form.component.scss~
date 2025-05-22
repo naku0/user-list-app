@@ -1,0 +1,22 @@
+@import "../../../../../assets/scss/variables";
+
+.user-form {
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 24px;
+  background: $background-white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  nz-form-item {
+    margin-bottom: 16px;
+  }
+
+  .cancel-btn {
+    margin-left: 8px;
+  }
+
+  [nz-button] {
+    margin-top: 8px;
+  }
+}

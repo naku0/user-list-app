@@ -1,0 +1,36 @@
+import {Component} from '@angular/core';
+import {UserListComponent} from '../user-list/user-list.component';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzSwitchComponent} from 'ng-zorro-antd/switch';
+import {FormsModule} from '@angular/forms';
+import {NzTooltipDirective} from 'ng-zorro-antd/tooltip';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
+
+@Component({
+  selector: 'main-page',
+  standalone: true,
+  templateUrl: './main-page.component.html',
+  imports: [
+    UserListComponent,
+    NzSwitchComponent,
+    FormsModule,
+    NzIconDirective,
+    NzTooltipDirective
+  ],
+  styleUrls: ['./main-page.component.scss']
+})
+export class MainPageComponent {
+  isAdmin: boolean = false;
+
+  constructor(private message: NzMessageService) {}
+
+  onAdminModeChange(): void {
+    if (this.isAdmin) {
+      console.log("Admin mode enabled");
+      this.message.success('Admin mode enabled', {nzDuration: 1500, nzAnimate: true});
+    } else {
+      console.log("Admin mode disabled");
+      this.message.success('Admin mode disabled', {nzDuration: 1500, nzAnimate: true});
+    }
+  }
+}

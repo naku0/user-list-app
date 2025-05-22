@@ -1,0 +1,77 @@
+<form nz-form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+  <nz-form-item>
+    <nz-form-label [nzRequired]="true">Имя</nz-form-label>
+    <nz-form-control [nzErrorTip]="nameErrorTpl">
+      <input nz-input formControlName="name" placeholder="Введите имя">
+      <ng-template #nameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          Поле обязательно для заполнения
+        </ng-container>
+        <ng-container *ngIf="control.hasError('minlength')">
+          Минимум 2 символа
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzRequired]="true">Username</nz-form-label>
+    <nz-form-control [nzErrorTip]="'Поле обязательно для заполнения'">
+      <input nz-input formControlName="username" placeholder="Введите username">
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzRequired]="true">Email</nz-form-label>
+    <nz-form-control [nzErrorTip]="emailErrorTpl">
+      <input nz-input formControlName="email" placeholder="Введите email">
+      <ng-template #emailErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          Поле обязательно для заполнения
+        </ng-container>
+        <ng-container *ngIf="control.hasError('email')">
+          Введите корректный email
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div formGroupName="address">
+    <nz-form-item>
+      <nz-form-label>Город</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="city" placeholder="Введите город">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div formGroupName="company">
+    <nz-form-item>
+      <nz-form-label>Компания</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="name" placeholder="Введите название компании">
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <!-- Кнопки -->
+  <nz-form-item>
+    <nz-form-control>
+      <button
+        nz-button
+        nzType="primary"
+        [disabled]="userForm.invalid"
+        [nzLoading]="isLoading"
+        type="submit">
+        Создать пользователя
+      </button>
+      <button
+        nz-button
+        class="cancel-btn"
+        (click)="router.navigate(['/users'])"
+        type="button">
+        Отмена
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

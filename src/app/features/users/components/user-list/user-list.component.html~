@@ -1,0 +1,57 @@
+<div class="user-list">
+  <div class="filter-controls">
+    <nz-input-group class="search-input">
+      <input
+        nz-input
+        placeholder="Поиск по имени или почте..."
+        [(ngModel)]="searchQuery"
+        (input)="applyFilters()"
+      >
+      <nz-icon nzType="search" nzTheme="outline" class="search-icon"/>
+    </nz-input-group>
+
+    <a
+      nz-button class="user-add-button {{isAdmin}}"
+       nzType="primary"
+       routerLink="/users/create"
+    >
+      <nz-icon nzType="user-add" nzTheme="outline"></nz-icon>
+      Add new user
+    </a>
+
+    <nz-select
+      class="filter-select"
+      nzPlaceHolder="Сортировка"
+      [(ngModel)]="sortOption"
+      (ngModelChange)="applyFilters()"
+    >
+      <nz-option nzValue="name_asc" nzLabel="by name (A-Z)"></nz-option>
+      <nz-option nzValue="name_desc" nzLabel="by name (Z-A)"></nz-option>
+      <nz-option nzValue="email_asc" nzLabel="by email (A-Z)"></nz-option>
+      <nz-option nzValue="email_desc" nzLabel="by email (Z-A)"></nz-option>
+
+    </nz-select>
+  </div>
+
+  <div class="user-list">
+    <app-small-user-card
+      *ngFor="let user of paginatedUsers"
+      [isAdmin]="isAdmin"
+      [isLocal]="isLocal"
+      [user]="user"
+      (userDeleted)="handleUserDeleted($event)">
+    </app-small-user-card>
+  </div>
+
+  <nz-empty *ngIf="filteredUsers.length === 0" nzNotFoundContent="Ничего не найдено"></nz-empty>
+
+  <nz-pagination
+    class="pagination"
+    [nzPageIndex]="currentPage"
+    [nzTotal]="filteredUsers.length"
+    [nzPageSize]="pageSize"
+    (nzPageIndexChange)="onPageChange($event)"
+    [nzShowSizeChanger]="false"
+    [nzShowQuickJumper]="true">
+  </nz-pagination>
+</div>
