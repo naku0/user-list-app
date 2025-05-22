@@ -1,59 +1,38 @@
-# Yadr
+# User list app
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+## Запуск
 
-## Development server
+Чтобы запустить необходимо:
 
-To start a local development server, run:
+1* Склонировать репозиторий
 
+2* Выполнить следующие комманды
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Приложение будет доступно по адресу `http://localhost:4200/`
 
-## Code scaffolding
+# Отчёт о выполнении задания
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Описание проекта
+Проект разработан на **Angular** с использованием следующих технологий:
+- **UI-библиотека**: `ng-zorro`  
+- **Стилизация**: `SCSS`  
+- **HTTP-запросы**: `HttpClient`  
+- **Формы**: `Reactive Forms`  
 
-```bash
-ng generate component component-name
-```
+## Выполненные задачи
+✅ Реализована основная функциональность  
+✅ Использован `ng-zorro` для UI-компонентов  
+✅ Настроены `Reactive Forms` для работы с формами  
+✅ Подключён `HttpClient` для API-запросов  
+✅ Применён `SCSS` для стилей  
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## TODO:
+❌ Написание юнит-тестов  
+❌ Деплой приложения  
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Небольшое уточнение
+Добавил админ-мод, исключительно для того, чтобы посмотреть интерфейс в качестве обычного пользователя (без прав на изменение и удаление).
